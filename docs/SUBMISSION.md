@@ -1,65 +1,59 @@
-# Hackathon submission kit — Zakwan Mustafa
+# Submission write-up: Zakwan Mustafa
 
-Use this when filling **“your project”** on the challenge site. Replace screenshot placeholders with your real captures after Amplify is live.
+Edit this into your own voice before you submit.
 
-## One-liner
+## Title
 
-> My portfolio is a production-shaped personal site on AWS Amplify Hosting whose creative feature is a CodeDeploy-style **Canary Traffic Shift** — visitors weight traffic between Stable and Canary UI environments without ever losing navigation.
+**Zakwan Mustafa: a portfolio that follows the sun**
 
-## Creative feature (copy/paste)
+## Short description
 
-**Name:** Canary Traffic Shift  
+A portfolio on AWS Amplify that opens on a live globe. The daylight on it is the real daylight right now, and lights mark the five countries where my teams have shipped work. If you're a visitor in a major city, a line runs from your city to mine in Islamabad.
 
-**What it is:** A persistent control bar that shifts “traffic” from a Stable production skin to a Canary experimental skin (threshold at 50%), inspired by AWS weighted traffic shifting / CodeDeploy canaries.
+## Creative feature
 
-**Why it’s memorable:** Most student portfolios add arcade games or theme toggles. This one teaches an AWS release concept *by using it*. Judges feel DevOps literacy immediately.
+I've delivered for clients in the UK, USA, Egypt, India and Pakistan, often while they were asleep. So instead of an OS theme or a mini-game, my portfolio opens on the planet where the work happened.
 
-**Doesn’t block navigation:** Primary nav + section anchors always work; the slider is additive. First-visit CloudFormation deploy theater is skippable.
+- **Live daylight.** The globe calculates where the sun is overhead from the current date and UTC time, then lights each of its ~6,000 land points accordingly. Whenever someone opens the site, the day/night line matches the real world.
+- **Where the work landed.** Each glowing country is clickable. The globe turns to it and shows what I delivered there, for example the SEO work that took Married to the Mop to #1 in Wigan.
+- **Five clocks.** The local time and day/night state for each client country.
+- **You're on the map.** The browser's timezone gives an approximate city, and a line is drawn from there to Islamabad. It runs entirely client-side and no data leaves the browser.
+- **Connected to the content.** Every project card has "Show on globe", so the feature works as a second way to navigate. The normal menu always works on its own.
 
-**Extra polish:** Local “CloudTrail” drawer logs visitor navigation events (client-side only — no PII sent to a server).
+The globe is my own Canvas 2D renderer with no 3D library. I generated the land points once from Natural Earth data, so the live site has no runtime dependencies.
 
 ## AWS services used
 
-| Service | How used |
+| Service | How |
 | --- | --- |
-| **AWS Amplify Hosting** | Hosts the static portfolio from GitHub; CI/CD on push |
-| *(Related learning, linked as a project)* **AWS Lambda + SAM + CloudWatch** | CloudPulse health API — separate repo, cited under Projects |
+| **AWS Amplify Hosting** | Hosts the site from my GitHub repo, with HTTPS and automatic redeploy on every push |
+| **AWS Lambda, AWS SAM, Amazon CloudWatch** *(featured project)* | CloudPulse, my serverless health-check API, shown in the Work section |
+| **GitHub Actions** *(featured project)* | CloudPulse CI: tests, `sam validate`, `sam build` |
 
-## Screenshots to capture
+## Screenshots to include
 
-1. Hero with **ZAKWAN** brand dominant (`docs/screenshots/01-hero.png`)
-2. Traffic Shift at **0%** Stable skin (`docs/screenshots/02-stable.png`)
-3. Traffic Shift at **100%** Canary skin (`docs/screenshots/03-canary.png`)
-4. About + Skills on mobile width (`docs/screenshots/04-mobile.png`)
-5. AWS Amplify console showing the app **Deployed** (`docs/screenshots/05-amplify-console.png`)
-6. Optional: stack deploy overlay (`docs/screenshots/06-stack-boot.png`)
+1. Desktop hero: globe, name, clocks
+2. A selected country (e.g. United Kingdom) with its card
+3. Mobile hero
+4. Skills and Work sections
+5. Amplify console showing the app **Deployed**
+6. GitHub repo
 
-## What I learned (draft — edit in your voice)
+## What I learned
 
-- How Amplify connects a GitHub repo to a public HTTPS URL with almost no server management.
-- Why separating **Stable vs Canary** experiences mirrors real release safety.
-- How to keep a flashy creative idea from breaking core UX (nav always available).
-- How to document AWS usage clearly for reviewers who were not in my editor.
+- How Amplify Hosting turns a GitHub repo into a global HTTPS site that redeploys on every push.
+- The maths behind an orthographic globe and a day/night terminator: the subsolar point, rotation, and back-face culling.
+- How to keep a big creative idea from blocking navigation or mobile usability.
+- Writing about my experience honestly, without inflated claims.
 
-## Challenges I hit (draft — edit in your voice)
+## Challenges
 
-- Designing a creative feature that feels AWS-native instead of a generic theme switcher.
-- Keeping the first viewport brand-first while still explaining the canary idea.
-- Making Stable/Canary contrast obvious without harming readability.
-- Balancing portfolio completeness (About / Skills / Projects) with a single sharp creative hook.
+- Getting about 6,000 animated points and arcs to run smoothly on phones. I grouped draw calls by colour and paused rendering when the globe is off-screen.
+- Building land data without shipping a heavy map library. I generated it offline and saved it to a 52 KB file.
+- Making the feature personal rather than decorative. Every light on the map stands for real work.
 
-## Required links
+## Links
 
-- **Live Amplify URL:** `https://REPLACE.amplifyapp.com`
-- **GitHub repo:** `https://github.com/zakwan05/zakwan-amplify-portfolio` (update if renamed)
-- **LinkedIn:** https://www.linkedin.com/in/zakwan-mustafa-94b421373/
-- **Related build:** https://github.com/zakwan05/CloudPulse
-
-## Rubric self-check
-
-| Criterion | Weight | How this entry addresses it |
-| --- | --- | --- |
-| Creativity & memorability | 30% | Canary traffic shift + deploy theater + CloudTrail — unique AWS metaphor |
-| Working AWS implementation | 25% | Amplify live URL + console screenshot + service table |
-| Communication quality | 25% | This write-up + README + clear feature naming |
-| Completeness & usability | 20% | About, Skills, Projects, responsive layout, nav always works |
+- Live site: `https://REPLACE.amplifyapp.com`
+- GitHub: `https://github.com/zakwan05/zakwan-amplify-portfolio`
+- LinkedIn: https://www.linkedin.com/in/zakwan-mustafa-94b421373/

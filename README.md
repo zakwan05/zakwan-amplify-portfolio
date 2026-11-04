@@ -1,82 +1,49 @@
-# ZAKWAN — AWS Amplify Portfolio
+# Zakwan Mustafa — Portfolio
 
-Personal portfolio for **Zakwan Mustafa**, hosted on **AWS Amplify Hosting**.
+Personal portfolio of **Zakwan Mustafa**, software engineer and AWS Student Builder Group leader at UET Taxila. Hosted on **AWS Amplify Hosting**.
 
-## Creative feature (judges: read this)
+## The idea
 
-**Canary Traffic Shift** — a bottom control modeled on **AWS CodeDeploy / weighted traffic shifting**.
+Zakwan's teams have shipped for clients in five countries. The site's hero shows that as a live, interactive globe:
 
-- Drag the slider to move traffic from **Stable** → **Canary**
-- At **≥ 50% canary**, the entire UI promotes into the experimental skin (acid signal / night-ops)
-- Below 50%, you stay on the production (aviation orange) skin
-- **Navigation never breaks** — the feature sits beside the content, not on top of it
-- Bonus: first-visit **CloudFormation-style stack deploy** theater (skippable) + local **CloudTrail** event stream of visitor actions
+- **Real daylight.** Each land point is lit by the sun's actual position at the moment the page loads (subsolar point from the date and UTC time), and it refreshes while you watch.
+- **Where the work landed.** Pakistan, the UK, the US, Egypt and India glow, with arcs carrying work back to Islamabad. Clicking a light, or one of the local-time clocks under it, turns the globe there and shows what was delivered.
+- **You're on it too.** If the visitor's browser timezone is in a list of about 50 major cities, a line is drawn from the visitor's approximate city to Islamabad. This runs entirely in the browser and nothing is sent anywhere.
+- **Every project links back to the map.** Each Work card has a "Show on globe" action.
 
-This is intentional DevOps storytelling: the portfolio *behaves* like a release, not a brochure.
+Normal navigation (About, Skills, Work, Contact) never depends on the globe.
 
-## Core sections
+## Sections
 
-1. **About Me**
-2. **Skills / Tech Superpowers**
-3. **Projects / Achievements** (CloudPulse, Vision AR FYP, Mad Tech Heads, SEO wins, AWS SBG, Intellijen)
+- About
+- Skills
+- Work: projects and achievements
+- Contact
 
-## Stack
+## Tech
 
-| Piece | Choice |
-| --- | --- |
-| Hosting | AWS Amplify Hosting |
-| App | Static HTML / CSS / JS (no build toolchain required) |
-| Config | `amplify.yml` |
-| Repo | Push this folder to GitHub, connect Amplify |
+- Static HTML, CSS and JavaScript. No framework and no runtime dependencies.
+- The globe is a hand-written Canvas 2D orthographic renderer (`app.js`).
+- `assets/land-dots.js` holds about 6,000 land sample points, generated once from Natural Earth 110m data (world-atlas).
+- `amplify.yml` handles AWS Amplify Hosting.
 
 ## Local preview
 
-From this folder in PowerShell:
-
 ```powershell
 cd "C:\Users\Dell 5520\Desktop\zakwan-amplify-portfolio"
-npx --yes serve -p 5173
+npx --yes serve -l 5173
 ```
 
-Open `http://localhost:5173`.
+Open the URL it prints.
 
-Or simply open `index.html` in a browser (some browsers restrict modules differently; `serve` is cleaner).
+## Deploy
 
-## Deploy to AWS Amplify (baby steps)
+See [docs/AMPLIFY_DEPLOY.md](docs/AMPLIFY_DEPLOY.md). Submission write-up: [docs/SUBMISSION.md](docs/SUBMISSION.md).
 
-### 1) Push this project to GitHub
+## Links
 
-```powershell
-cd "C:\Users\Dell 5520\Desktop\zakwan-amplify-portfolio"
-git init
-git add .
-git commit -m "Initial Zakwan Amplify portfolio with canary traffic shift"
-gh repo create zakwan-amplify-portfolio --public --source=. --remote=origin --push
-```
+- LinkedIn: https://www.linkedin.com/in/zakwan-mustafa-94b421373/
+- GitHub: https://github.com/zakwan05
+- Email: zakwanureed@gmail.com
 
-### 2) Create Amplify app in AWS Console
-
-1. Sign in to AWS (use your IAM user, not root).
-2. Open **AWS Amplify**.
-3. **Create new app** → **Host web app**.
-4. Connect **GitHub** → authorize → select `zakwan-amplify-portfolio`.
-5. Branch: `main` or `master`.
-6. Amplify should detect `amplify.yml`.
-7. Deploy and wait for a green status.
-8. Copy the Amplify URL (`https://….amplifyapp.com`).
-
-### 3) Verify checklist
-
-- [ ] Live URL loads
-- [ ] About / Skills / Projects / Contact work on phone + desktop
-- [ ] Traffic Shift slider changes the skin
-- [ ] GitHub link works
-- [ ] Take screenshots for the hackathon submission (see `docs/SUBMISSION.md`)
-
-## Cost note
-
-Amplify Hosting free tier is usually enough for a student portfolio. Delete the app if you no longer need it.
-
-## Author
-
-**Zakwan Mustafa** · [LinkedIn](https://www.linkedin.com/in/zakwan-mustafa-94b421373/) · [GitHub](https://github.com/zakwan05) · zakwanureed@gmail.com
+Map data: Natural Earth (public domain) via world-atlas.

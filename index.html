@@ -1,311 +1,266 @@
 <!DOCTYPE html>
-<html lang="en" data-env="stable" data-canary="0">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Zakwan Mustafa — AWS Student Builder, software engineer, and cloud builder. Portfolio hosted on AWS Amplify with a CodeDeploy-style canary traffic-shift experience."
+      content="Zakwan Mustafa — software engineer and AWS Student Builder Group leader at UET Taxila, shipping web, mobile, and cloud work for clients in five countries."
     />
-    <title>ZAKWAN — Production Portfolio</title>
+    <meta name="theme-color" content="#05070c" />
+    <title>Zakwan Mustafa — Software Engineer · AWS Student Builder</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <!-- First-visit deploy theater (skippable; never blocks nav after) -->
-    <div id="stack-boot" class="stack-boot" hidden>
-      <div class="stack-boot__panel">
-        <p class="stack-boot__eyebrow">CloudFormation · us-east-1 · stack/zakwan-portfolio</p>
-        <h2 class="stack-boot__title">Deploying Zakwan into production</h2>
-        <ul id="stack-events" class="stack-events" aria-live="polite"></ul>
-        <button type="button" id="skip-boot" class="btn btn--ghost">Skip deploy →</button>
-      </div>
-    </div>
-
-    <div class="topo" aria-hidden="true">
-      <svg class="topo__svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="pulse" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="var(--accent)" stop-opacity="0" />
-            <stop offset="50%" stop-color="var(--accent)" stop-opacity="0.85" />
-            <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
-          </linearGradient>
-        </defs>
-        <g class="topo__grid" stroke="currentColor" stroke-width="0.6" opacity="0.18">
-          <path d="M0 160 H1200 M0 320 H1200 M0 480 H1200 M0 640 H1200" />
-          <path d="M150 0 V800 M350 0 V800 M550 0 V800 M750 0 V800 M950 0 V800" />
-        </g>
-        <g class="topo__routes" fill="none" stroke="url(#pulse)" stroke-width="2">
-          <path class="topo__route" d="M80 700 C220 520, 280 420, 420 360 S680 240, 820 200 S1040 120, 1140 80" />
-          <path class="topo__route topo__route--delay" d="M60 120 C260 180, 340 300, 500 380 S780 520, 980 640" />
-          <path class="topo__route topo__route--delay2" d="M200 760 C400 600, 520 500, 700 460 S980 420, 1120 300" />
-        </g>
-        <g class="topo__nodes" fill="var(--accent)">
-          <circle cx="420" cy="360" r="5" />
-          <circle cx="700" cy="460" r="5" />
-          <circle cx="820" cy="200" r="5" />
-          <circle cx="980" cy="640" r="5" />
-        </g>
-      </svg>
-    </div>
-
-    <header class="site-header">
-      <a class="brand" href="#top" aria-label="Zakwan home">
-        <span class="brand__mark">Z</span>
-        <span class="brand__text">ZAKWAN</span>
+    <header class="header" id="header">
+      <a class="brand" href="#top" aria-label="Zakwan Mustafa, back to top">
+        <span class="brand__sun" aria-hidden="true"></span>
+        Zakwan Mustafa
       </a>
       <nav class="nav" aria-label="Primary">
         <a href="#about">About</a>
         <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
+        <a href="#work">Work</a>
         <a href="#contact">Contact</a>
       </nav>
-      <a class="header-cta" href="https://github.com/zakwan05" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav">
-        Menu
+      <p class="header__status" id="header-status" aria-live="off">Islamabad</p>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="drawer">
+        <span></span><span></span>
+        <span class="sr-only">Menu</span>
       </button>
     </header>
 
-    <div id="mobile-nav" class="mobile-nav" hidden>
+    <div class="drawer" id="drawer" hidden>
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
+      <a href="#work">Work</a>
       <a href="#contact">Contact</a>
     </div>
 
-    <!-- CREATIVE FEATURE: CodeDeploy-style traffic shift (always available, never blocks nav) -->
-    <aside class="canary-bar" aria-label="Creative feature: canary traffic shift">
-      <div class="canary-bar__meta">
-        <span class="canary-bar__label">Creative feature</span>
-        <strong class="canary-bar__title">Traffic Shift</strong>
-        <span class="canary-bar__hint">Stable ↔ Canary · like AWS CodeDeploy</span>
-      </div>
-      <div class="canary-bar__control">
-        <label class="sr-only" for="traffic">Canary traffic percent</label>
-        <input id="traffic" type="range" min="0" max="100" value="0" step="5" />
-        <div class="canary-bar__readout" aria-live="polite">
-          <span><i id="stable-pct">100</i>% Stable</span>
-          <span><i id="canary-pct">0</i>% Canary</span>
-        </div>
-      </div>
-      <button type="button" id="replay-deploy" class="btn btn--tiny">Replay stack deploy</button>
-    </aside>
-
     <main id="top">
-      <section class="hero">
-        <p class="hero__status">
-          <span class="pulse-dot" aria-hidden="true"></span>
-          SYSTEM STATUS · HEALTHY · AMPLIFY HOSTING
-        </p>
-        <h1 class="hero__brand">ZAKWAN</h1>
-        <p class="hero__lead">
-          Software engineer &amp; AWS Student Builder Group leader turning client chaos into shipped systems —
-          across cloud, full-stack, and global remote teams.
-        </p>
-        <div class="hero__actions">
-          <a class="btn btn--primary" href="#projects">View projects</a>
-          <a class="btn btn--ghost" href="#about">About me</a>
+      <section class="hero" aria-labelledby="hero-name">
+        <div class="hero__copy">
+          <p class="hero__kicker">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span id="hero-line">Islamabad, Pakistan</span>
+          </p>
+          <h1 class="hero__name" id="hero-name">Zakwan Mustafa</h1>
+          <p class="hero__lede">
+            Software engineer and AWS Student Builder Group leader at UET Taxila. My teams have shipped
+            20+ web and mobile products for clients in five countries, so it's always working hours
+            somewhere on this globe.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#work">Explore the work</a>
+            <a class="btn btn--ghost" href="#about">About me</a>
+          </div>
         </div>
-        <p class="hero__footnote">
-          Shift the canary slider anytime — same portfolio, two deployment skins. Navigation always stays live.
-        </p>
+
+        <div class="hero__globe">
+          <canvas
+            id="globe"
+            role="img"
+            aria-label="A live globe showing today's real daylight, with lights where Zakwan's work has shipped: Pakistan, the United Kingdom, the United States, Egypt and India."
+          ></canvas>
+          <p class="globe__hint" id="globe-hint">Daylight is live · drag to turn the world</p>
+
+          <article class="place" id="place" aria-live="polite">
+            <p class="place__where">
+              <span id="place-country">Pakistan</span>
+              <span class="place__time" id="place-time">--:--</span>
+            </p>
+            <h2 class="place__title" id="place-title">Home base</h2>
+            <p class="place__body" id="place-body"></p>
+          </article>
+        </div>
+
+        <ul class="clocks" id="clocks" aria-label="Where the work has shipped"></ul>
       </section>
 
-      <section id="about" class="section about">
-        <div class="section__head">
-          <p class="eyebrow">About Me</p>
-          <h2>Built for shipping, not slide decks.</h2>
-        </div>
-        <div class="about__grid">
-          <div class="about__copy">
-            <p>
-              I’m <strong>Zakwan Mustafa</strong> — BS Computer Science student at
-              <strong>UET Taxila</strong>, based in Islamabad / Rawalpindi, and leader of the
-              <strong>AWS Student Builder Group @ UET Taxila</strong>.
+      <section id="about" class="section">
+        <header class="section__head">
+          <p class="kicker">01 / About</p>
+          <h2>Built in Taxila.<br />Shipped everywhere else.</h2>
+        </header>
+        <div class="about">
+          <div class="about__text">
+            <p class="about__lead">
+              I'm a Computer Science student at the University of Engineering and Technology Taxila, and
+              I've spent the last three years building for people on the other side of the planet.
             </p>
             <p>
-              For 3+ years I’ve delivered mobile and web products for clients in the UK, USA, MENA, and South Asia —
-              leading remote teams across 5+ time zones while staying hands-on in architecture, cloud, and delivery.
+              I've led remote developers and designers across five or more time zones, delivered web and mobile
+              applications for healthcare, logistics, finance, risk assessment and HR, and taken
+              local businesses in the UK to the top of search results.
             </p>
             <p>
-              Lately I’m deepening <strong>AWS + DevOps</strong>: infrastructure as code, serverless, CI, and
-              production discipline. CloudPulse was my first “stop watching tutorials, start shipping” cloud build.
+              Now I'm going deep on AWS and DevOps: infrastructure as code, serverless, CI pipelines.
+              I also lead UET Taxila's AWS Student Builder Group, so other students can learn the same things
+              by building real projects.
             </p>
           </div>
-          <ul class="about__facts">
-            <li>
-              <span>Role signal</span>
-              <strong>AWS SBG Leader · UET Taxila</strong>
-            </li>
-            <li>
-              <span>Operator mode</span>
-              <strong>GM · Mad Tech Heads</strong>
-            </li>
-            <li>
-              <span>Builder mode</span>
-              <strong>CTO · Intellijen Solutions</strong>
-            </li>
-            <li>
-              <span>Impact</span>
-              <strong>20+ apps shipped · multi-region clients</strong>
-            </li>
+          <ul class="roles" aria-label="Roles">
+            <li><span class="roles__org">AWS Student Builder Group, UET Taxila</span><span class="roles__title">Leader</span></li>
+            <li><span class="roles__org">Al Haram Tech Solutions</span><span class="roles__title">iOS Developer</span></li>
+            <li><span class="roles__org">Intellijen Solutions</span><span class="roles__title">Chief Technology Officer</span></li>
+            <li><span class="roles__org">Mad Tech Heads</span><span class="roles__title">General Manager</span></li>
+            <li><span class="roles__org">Married to the Mop</span><span class="roles__title">Technical Consultant &amp; SEO</span></li>
+            <li><span class="roles__org">John Barlow Repair</span><span class="roles__title">SEO Expert</span></li>
           </ul>
         </div>
       </section>
 
-      <section id="skills" class="section skills">
-        <div class="section__head">
-          <p class="eyebrow">Skills / Tech Superpowers</p>
-          <h2>What I bring online when traffic spikes.</h2>
-        </div>
-        <div class="skills__board" role="list">
-          <article class="skill" role="listitem" data-service="compute">
-            <p class="skill__service">lambda / compute</p>
-            <h3>AWS &amp; Cloud</h3>
-            <p>Lambda, SAM, Amplify Hosting, CloudWatch, IAM basics, serverless health APIs.</p>
+      <section id="skills" class="section">
+        <header class="section__head">
+          <p class="kicker">02 / Skills</p>
+          <h2>Tech superpowers</h2>
+        </header>
+        <div class="skills">
+          <article class="skill skill--wide">
+            <p class="skill__index">Cloud</p>
+            <h3>AWS, the hands-on way</h3>
+            <p>
+              I learn services by deploying them: a serverless API defined in SAM, logs in CloudWatch, CI in
+              GitHub Actions, and this site on Amplify Hosting.
+            </p>
+            <ul class="chips">
+              <li>AWS Lambda</li><li>AWS SAM</li><li>CloudFormation</li><li>Amplify Hosting</li>
+              <li>CloudWatch</li><li>IAM</li><li>GitHub Actions</li>
+            </ul>
           </article>
-          <article class="skill" role="listitem" data-service="app">
-            <p class="skill__service">ecs / application</p>
-            <h3>Full-Stack Delivery</h3>
-            <p>Web + React Native systems, SaaS flows, secure scalable client builds.</p>
+          <article class="skill">
+            <p class="skill__index">Build</p>
+            <h3>Full-stack &amp; mobile</h3>
+            <ul class="chips">
+              <li>Full-stack web</li><li>React Native</li><li>iOS</li><li>SaaS</li>
+            </ul>
           </article>
-          <article class="skill" role="listitem" data-service="edge">
-            <p class="skill__service">cloudfront / growth</p>
-            <h3>SEO &amp; Growth Engines</h3>
-            <p>Technical SEO, local dominance, analytics-led lifts (e.g. +70% calls on key accounts).</p>
+          <article class="skill">
+            <p class="skill__index">Grow</p>
+            <h3>Search that converts</h3>
+            <ul class="chips">
+              <li>Technical SEO</li><li>Local SEO</li><li>Google Analytics</li><li>Search Console</li>
+            </ul>
           </article>
-          <article class="skill" role="listitem" data-service="control">
-            <p class="skill__service">iam / leadership</p>
-            <h3>Remote Team Command</h3>
-            <p>Hiring energy, delegation, Trello/Jira/Slack ops across time zones with on-time delivery.</p>
+          <article class="skill">
+            <p class="skill__index">Lead</p>
+            <h3>Remote teams</h3>
+            <ul class="chips">
+              <li>Project management</li><li>Client handling</li><li>Team leadership</li><li>Community building</li>
+            </ul>
           </article>
-          <article class="skill" role="listitem" data-service="ai">
-            <p class="skill__service">sagemaker-ish / invent</p>
-            <h3>AI &amp; Product Sense</h3>
-            <p>AR product thinking (Vision FYP), practical AI awareness, shipping over theorizing.</p>
-          </article>
-          <article class="skill" role="listitem" data-service="support">
-            <p class="skill__service">support / reliability</p>
-            <h3>Technical Support</h3>
-            <p>Internal tools, automation workflows, training docs, keep-the-lights-on ownership.</p>
+          <article class="skill">
+            <p class="skill__index">Tools</p>
+            <h3>Daily stack</h3>
+            <ul class="chips">
+              <li>Git</li><li>GitHub</li><li>Jira</li><li>Trello</li><li>Asana</li><li>Figma</li><li>Canva</li>
+            </ul>
           </article>
         </div>
       </section>
 
-      <section id="projects" class="section projects">
-        <div class="section__head">
-          <p class="eyebrow">Projects / Achievements</p>
-          <h2>Production history — learning projects count.</h2>
-        </div>
-
-        <div class="project-list">
-          <article class="project">
-            <div class="project__meta">
-              <span class="tag">AWS · Serverless</span>
-              <span class="tag">Featured</span>
-            </div>
+      <section id="work" class="section">
+        <header class="section__head">
+          <p class="kicker">03 / Work</p>
+          <h2>Projects &amp; achievements</h2>
+        </header>
+        <div class="work">
+          <article class="project project--feature">
+            <p class="project__meta"><span>AWS · Serverless</span><span>Taxila</span></p>
             <h3>CloudPulse</h3>
             <p>
-              Minimal Lambda Function URL health API with SAM, CloudWatch logging, and GitHub Actions CI —
-              built to learn the path from code to cloud without tutorial theater.
+              A serverless health-check API running on AWS Lambda behind a Function URL. The infrastructure is
+              defined in AWS SAM, logs go to CloudWatch with short retention, and GitHub Actions tests and builds
+              every push without needing any AWS credentials.
             </p>
-            <a href="https://github.com/zakwan05/CloudPulse" target="_blank" rel="noopener noreferrer">GitHub repo →</a>
+            <pre class="project__code" aria-label="Example response from GET /health"><code><span class="c-dim">$</span> curl https://…lambda-url.us-east-1.on.aws/health
+<span class="c-dim">HTTP/1.1</span> <span class="c-ok">200 OK</span>
+{
+  <span class="c-key">"service"</span>: <span class="c-str">"CloudPulse"</span>,
+  <span class="c-key">"status"</span>: <span class="c-str">"healthy"</span>,
+  <span class="c-key">"environment"</span>: <span class="c-str">"production"</span>,
+  <span class="c-key">"version"</span>: <span class="c-str">"1.0.0"</span>,
+  <span class="c-key">"timestamp"</span>: <span class="c-str">"…"</span>
+}</code></pre>
+            <div class="project__links">
+              <a href="https://github.com/zakwan05/CloudPulse" target="_blank" rel="noopener noreferrer">Repository ↗</a>
+              <button type="button" data-place="pk">Show on globe</button>
+            </div>
           </article>
 
           <article class="project">
-            <div class="project__meta">
-              <span class="tag">FYP · AR</span>
-            </div>
-            <h3>Vision — AR Renovation Planner</h3>
+            <p class="project__meta"><span>SEO · Growth</span><span>Wigan, UK</span></p>
+            <h3>#1 in Wigan</h3>
             <p>
-              Augmented reality room renovation app: scan space, place furniture, estimate cost, and assess damage.
-              Built with teammates at UET Taxila under faculty supervision.
+              Technical and local SEO for Married to the Mop. It reached the top ranking in Wigan, and calls went up by about 70%.
             </p>
+            <div class="project__links">
+              <a href="https://www.marriedtothemop.co.uk/" target="_blank" rel="noopener noreferrer">Live site ↗</a>
+              <button type="button" data-place="uk">Show on globe</button>
+            </div>
           </article>
 
           <article class="project">
-            <div class="project__meta">
-              <span class="tag">Leadership</span>
-            </div>
-            <h3>Mad Tech Heads · General Manager</h3>
+            <p class="project__meta"><span>Final year project · AR</span><span>Taxila</span></p>
+            <h3>Vision</h3>
             <p>
-              Delivered 20+ mobile and web applications for UK/USA/Egypt/India/Pakistan clients while leading
-              cross-functional remote teams with 100% on-time delivery culture.
+              An augmented reality app for planning a room renovation. You scan the space, place furniture, estimate
+              the cost, and get a visual damage assessment, all in one flow.
             </p>
+            <div class="project__links">
+              <button type="button" data-place="pk">Show on globe</button>
+            </div>
           </article>
 
           <article class="project">
-            <div class="project__meta">
-              <span class="tag">SEO · Impact</span>
-            </div>
-            <h3>Married to the Mop · #1 Wigan</h3>
+            <p class="project__meta"><span>Leadership</span><span>5 countries</span></p>
+            <h3>20+ apps shipped</h3>
             <p>
-              Technical SEO, content, and measurement that helped drive a #1 local ranking and ~70% call increase.
-              Live site: marriedtothemop.co.uk
+              As General Manager at Mad Tech Heads, I led remote teams across five or more time zones and delivered
+              web and mobile apps for clients in the UK, USA, Egypt, India and Pakistan, all on schedule.
             </p>
-            <a href="https://www.marriedtothemop.co.uk/" target="_blank" rel="noopener noreferrer">Visit site →</a>
+            <div class="project__links">
+              <button type="button" data-place="us">Show on globe</button>
+            </div>
           </article>
 
           <article class="project">
-            <div class="project__meta">
-              <span class="tag">Community · AWS</span>
-            </div>
-            <h3>AWS Student Builder Group @ UET Taxila</h3>
+            <p class="project__meta"><span>Community</span><span>Islamabad</span></p>
+            <h3>AWS Student Builder Group</h3>
             <p>
-              Leading the campus AWS student community — events, Builder Center pathways, and cloud-first culture
-              for students shipping real projects.
+              I lead UET Taxila's AWS student community, and we were an official community partner for AWS Student
+              Community Day Islamabad 2026.
             </p>
-          </article>
-
-          <article class="project">
-            <div class="project__meta">
-              <span class="tag">Product · CTO</span>
+            <div class="project__links">
+              <button type="button" data-place="pk">Show on globe</button>
             </div>
-            <h3>Intellijen Solutions</h3>
-            <p>
-              As CTO, steered product and engineering for digital solutions — balancing build quality with
-              team oversight and client outcomes.
-            </p>
           </article>
         </div>
       </section>
 
       <section id="contact" class="section contact">
-        <div class="section__head">
-          <p class="eyebrow">Contact</p>
-          <h2>Open a connection.</h2>
+        <p class="kicker">04 / Contact</p>
+        <h2 class="contact__title">Wherever you are, it's a good time to say hello.</h2>
+        <a class="contact__mail" href="mailto:zakwanureed@gmail.com">zakwanureed@gmail.com</a>
+        <div class="contact__links">
+          <a href="https://www.linkedin.com/in/zakwan-mustafa-94b421373/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+          <a href="https://github.com/zakwan05" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         </div>
-        <div class="contact__row">
-          <a href="mailto:zakwanureed@gmail.com">zakwanureed@gmail.com</a>
-          <a href="https://www.linkedin.com/in/zakwan-mustafa-94b421373/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="https://github.com/zakwan05" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </div>
-        <p class="contact__note">Islamabad / Rawalpindi, Pakistan · Open to internships, cloud collabs, and builder energy.</p>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <p>
-        Hosted on <strong>AWS Amplify Hosting</strong> · Creative feature: <strong>Canary Traffic Shift</strong> ·
-        Repo linked from the header.
-      </p>
-      <p class="site-footer__tiny">© <span id="year"></span> Zakwan Mustafa · Original portfolio for AWS Student Challenge</p>
+    <footer class="footer">
+      <p>© <span id="year"></span> Zakwan Mustafa</p>
+      <p>Served by AWS Amplify Hosting</p>
     </footer>
 
-    <!-- Live "CloudTrail" of visitor interactions — part of creative feature storytelling -->
-    <div class="trail" aria-hidden="false">
-      <button type="button" id="trail-toggle" class="trail__toggle" aria-expanded="false">CloudTrail</button>
-      <div id="trail-panel" class="trail__panel" hidden>
-        <p class="trail__title">Visitor event stream (local only)</p>
-        <ul id="trail-log" class="trail__log"></ul>
-      </div>
-    </div>
-
+    <script src="assets/land-dots.js" defer></script>
     <script src="app.js" defer></script>
   </body>
 </html>
