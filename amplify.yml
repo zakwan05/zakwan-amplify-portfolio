@@ -1,0 +1,15 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Zakwan portfolio — static Amplify Hosting build"
+    build:
+      commands:
+        - echo "No compile step — serving static HTML/CSS/JS"
+  artifacts:
+    baseDirectory: /
+    files:
+      - "**/*"
+  cache:
+    paths: []
